@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GovernorateController;
+use App\Http\Controllers\ShopCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('soqli/shop_category', ShopCategoryController::class);
+Route::apiResource('soqli/governorates', GovernorateController::class);
