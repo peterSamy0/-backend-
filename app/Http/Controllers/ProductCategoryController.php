@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductCategory;
+use Cocur\Slugify\Slugify;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
 
 class ProductCategoryController extends Controller
 {
@@ -11,7 +15,12 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $productCategory = ProductCategory::get(['id', 'name', 'slug']);
+            return response()->json( $productCategory, 200);
+        }catch (ModelNotFoundException $e) {
+            return response()->json('error: ' . $e->getMessage(), 500);
+        }
     }
 
     /**
@@ -27,7 +36,19 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+
+            $productCategory = new ProductCategory;
+            $productCategory->name = $request->name;
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($request->name);
+            $productCategory->slug = $slug;
+            $productCategory->save();
+
+            return response()->json('add successfully', 200);
+        } catch (Exception $e) {
+            return response()->json('error: ' . $e->getMessage(), 500);
+        }
     }
 
     /**
@@ -51,7 +72,19 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($request->name);
+            $productCategory = ProductCategory::findorfail($id);
+            $productCategory->name = $request->name;
+            $productCategory->slug = $slug;
+            $productCategory->update();
+
+            return response()->json('updated successfully', 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -59,6 +92,12 @@ class ProductCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            $productCategory = ProductCategory::findorfail($id);
+            $productCategory->delete();
+            return response()->json('deleted successfully' ,200);
+        }catch(Exception $e){
+            return response()->json('error: '. $e->getMessage(), 500);
+        }
     }
 }
