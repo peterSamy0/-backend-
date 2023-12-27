@@ -14,6 +14,7 @@ use App\Models\ShopCategory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Product;
+use App\Models\FavoriteItems;
 
 class User extends Authenticatable
 {
@@ -78,5 +79,10 @@ class User extends Authenticatable
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function favoriteItems():HasMany
+    {
+        return $this->hasMany(FavoriteItems::class);
     }
 }
