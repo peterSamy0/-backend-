@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_phones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->bigInteger('phone');
+            $table->string('phone');
             $table->softDeletes();
             $table->timestamps();
         });
