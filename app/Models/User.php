@@ -3,18 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use App\Models\City;
+use App\Models\Product;
 use App\Models\Governorate;
 use App\Models\ShopCategory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\FavoriteProducts;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Product;
-use App\Models\FavoriteItems;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
@@ -81,8 +81,8 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
-    public function favoriteItems():HasMany
+    public function favoriteProducts():HasMany
     {
-        return $this->hasMany(FavoriteItems::class);
+        return $this->hasMany(FavoriteProducts::class);
     }
 }

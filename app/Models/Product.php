@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
 use App\Models\ProductCategory;
+use App\Models\FavoriteProducts;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\FavoriteItems;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -34,8 +34,8 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class);
     }
 
-    public function favoriteItems():HasMany
+    public function favoriteProducts():HasMany
     {
-        return $this->hasMany(FavoriteItems::class);
+        return $this->hasMany(FavoriteProducts::class);
     }
 }

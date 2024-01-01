@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FavoriteItems;
-use Exception;
 use Illuminate\Http\Request;
-
-class FavoriteItemsController extends Controller
+use App\Models\FavoriteProducts;
+use Exception;
+class FavoriteProductsController extends Controller
 {
-    /**
+       /**
      * Display a listing of the resource.
      */
     public function index()
     {
         try{
-            $favItems = FavoriteItems::with(['users:id,name', 'products:id,name,price'])->get();
+            $favItems = FavoriteProducts::with(['users:id,name', 'products:id,name,price'])->get();
             return response()->json($favItems, 200);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);
@@ -35,7 +34,7 @@ class FavoriteItemsController extends Controller
     public function store(Request $request)
     {
         try{
-            $favItem = new FavoriteItems;
+            $favItem = new FavoriteProducts;
             $favItem->user_id = $request->user_id;
             $favItem->product_id = $request->product_id;
             $favItem->save();
@@ -51,7 +50,7 @@ class FavoriteItemsController extends Controller
     public function show($id)
     {
         try{
-            $favItem = FavoriteItems::with(['users:id,name', 'products:id,name,price'])->findOrFail($id);
+            $favItem = FavoriteProducts::with(['users:id,name', 'products:id,name,price'])->findOrFail($id);
             return response()->json($favItem, 200);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);
@@ -61,7 +60,7 @@ class FavoriteItemsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FavoriteItems $favoriteItems)
+    public function edit(FavoriteProducts $favoriteItems)
     {
         //
     }
@@ -69,7 +68,7 @@ class FavoriteItemsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FavoriteItems $favoriteItems)
+    public function update(Request $request, FavoriteProducts $favoriteItems)
     {
         //
     }
@@ -80,7 +79,7 @@ class FavoriteItemsController extends Controller
     public function destroy($id)
     {
         try{
-            $favItem = FavoriteItems::find($id);
+            $favItem = FavoriteProducts::find($id);
             if($favItem){
                 $favItem->delete();
                 return response()->json('item deleted successfully', 200);
