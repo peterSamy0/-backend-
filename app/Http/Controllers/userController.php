@@ -110,4 +110,14 @@ class userController extends Controller
             return response()->json('error: '. $e->getMessage(), 500);
         }
     }
+
+    public function getShopOwner()
+    {
+        try{
+            $shopOwners = User::where('role', 'صاحب محل')->with('shopCategory:id,name')->get(['full_name', 'address', 'shop_category_id']);
+            return response()->json($shopOwners ,200);
+        }catch(Exception $e){
+            return response()->json('error: '. $e->getMessage(), 500);
+        }
+    }
 }

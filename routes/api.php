@@ -26,3 +26,4 @@ Route::apiResource('soqli/governorates', GovernorateController::class);
 Route::apiResource('soqli/shop_category', ShopCategoryController::class);
 Route::apiResource('soqli/product_category', ProductCategoryController::class);
 Route::apiResource('soqli/users', userController::class);
+Route::get('soqli/shop-owners', [UserController::class, 'getShopOwner']);
