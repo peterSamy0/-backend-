@@ -14,10 +14,10 @@ class userController extends Controller
      */
     public function index()
     {
-        try{
+        try {
             $users = User::with(['city:id,name', 'governorate:id,name'])->get();
-            return response()->json( $users, 200);
-        }catch (Exception $e) {
+            return response()->json($users, 200);
+        } catch (Exception $e) {
             return response()->json('error: ' . $e->getMessage(), 500);
         }
     }
@@ -35,10 +35,9 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $user = new User;
-            $user->f_name = $request->f_name;
-            $user->l_name = $request->l_name;
+            $user->full_name = $request->full_name;
             $user->email = $request->email;
             $user->address = $request->address;
             $user->governorate_id = $request->governorate_id;
@@ -47,8 +46,8 @@ class userController extends Controller
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
             $user->save();
-            return response()->json( $user, 200);
-        }catch (Exception $e) {
+            return response()->json($user, 200);
+        } catch (Exception $e) {
             return response()->json('error: ' . $e->getMessage(), 500);
         }
     }
@@ -58,10 +57,10 @@ class userController extends Controller
      */
     public function show(string $id)
     {
-        try{
+        try {
             $user = User::with(['city:id,name', 'governorate:id,name'])->findorfail($id);
-            return response()->json( $user, 200);
-        }catch (Exception $e) {
+            return response()->json($user, 200);
+        } catch (Exception $e) {
             return response()->json('error: ' . $e->getMessage(), 500);
         }
     }
@@ -79,7 +78,7 @@ class userController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try{
+        try {
             $user = User::findorfail($id);
             $user->f_name = $request->f_name;
             $user->l_name = $request->l_name;
@@ -91,8 +90,8 @@ class userController extends Controller
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
             $user->update();
-            return response()->json( $user, 200);
-        }catch (Exception $e) {
+            return response()->json($user, 200);
+        } catch (Exception $e) {
             return response()->json('error: ' . $e->getMessage(), 500);
         }
     }
@@ -102,12 +101,12 @@ class userController extends Controller
      */
     public function destroy(string $id)
     {
-        try{
+        try {
             $user = User::findorfail($id);
             $user->delete();
-            return response()->json('user deleted successfully' ,200);
-        }catch(Exception $e){
-            return response()->json('error: '. $e->getMessage(), 500);
+            return response()->json('user deleted successfully', 200);
+        } catch (Exception $e) {
+            return response()->json('error: ' . $e->getMessage(), 500);
         }
     }
 
