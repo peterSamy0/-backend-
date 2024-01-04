@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('full_name'); // 2
+            $table->string('slug')->unique();
             $table->string('email')->unique()->nullable();  // 2
             $table->enum('role', ['admin', 'صاحب محل', 'عميل'])->default('عميل');  // 2
             $table->text('address')->nullable();  // shop owner

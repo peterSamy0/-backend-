@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Exception;
+use App\Models\User;
+use Cocur\Slugify\Slugify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -36,8 +37,11 @@ class userController extends Controller
     public function store(Request $request)
     {
         try {
+            $slugify = new Slugify();
+            $slug = $slugify->slugify($request->full_name);
             $user = new User;
             $user->full_name = $request->full_name;
+            $user->slug = $slug;
             $user->email = $request->email;
             $user->address = $request->address;
             $user->governorate_id = $request->governorate_id;
@@ -113,10 +117,23 @@ class userController extends Controller
     public function getShopOwner()
     {
         try{
-            $shopOwners = User::where('role', 'صاحب محل')->with('shopCategory:id,name')->get(['full_name', 'address', 'shop_category_id']);
+            $shopOwners = User::where('role', 'صاحب محل')->with('shopCategory:id,name')->get(['full_name', 'address', 'shop_category_id', 'slug']);
             return response()->json($shopOwners ,200);
         }catch(Exception $e){
             return response()->json('error: '. $e->getMessage(), 500);
         }
+    }
+
+    public function filterProducts(Request $request)
+    {
+        $query = User::query();
+        if ($request->has('category')) {
+            $query->whereHas('shopCategory', function ($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
+        } 
+        // You can add more filters based on your requirements
+        $shops = $query->get();
+        return response()->json($shops);
     }
 }

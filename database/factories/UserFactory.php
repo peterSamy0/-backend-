@@ -18,14 +18,13 @@ class UserFactory extends Factory
     {
         return [
             'full_name' => $this->faker->name,
+            'slug' => $this->faker->unique()->slug,
             'email' => $this->faker->unique()->safeEmail,
             'role' => $this->faker->randomElement(['admin', 'صاحب محل', 'عميل']),
             'address' => $this->faker->address,
             'governorate_id' =>  $this->faker->randomElement([1, 2, 3]),
             'city_id' =>  $this->faker->randomElement([1, 2, 3, 4 ,5]),
-            'shop_category_id' => function () {
-                return \App\Models\ShopCategory::factory()->create()->id;
-            },
+            'shop_category_id' => $this->faker->randomElement([1, 2, 3, 4]),
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // Change 'password' to your desired default password
             'cover_image' => $this->faker->imageUrl(),

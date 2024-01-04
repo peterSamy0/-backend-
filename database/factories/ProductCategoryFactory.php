@@ -15,12 +15,10 @@ class ProductCategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = \Faker\Factory::create();
-        $slugify = new Slugify();
-
         return [
-            'name' => $name = $faker->word, // Corrected this line
-            'slug' => $slug = $slugify->slugify($name), // Corrected this line
+            'name' => $this->faker->word, 
+            'slug' => $this->faker->unique()->slug,
+
         ];
     }
 }
