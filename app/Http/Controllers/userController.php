@@ -133,7 +133,7 @@ class userController extends Controller
             });
         } 
         // You can add more filters based on your requirements
-        $shops = $query->get();
+        $shops = $query->with('shopCategory:name,id')->get();
         return response()->json($shops);
     }
 }
