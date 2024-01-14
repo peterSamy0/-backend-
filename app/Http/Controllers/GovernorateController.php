@@ -16,10 +16,10 @@ class GovernorateController extends Controller
      */
     public function index()
     {
-        try{
-            $governorates = Governorate::with('cities:name,governorate_id')->get(['id', 'name']);
-            return response()->json( $governorates, 200);
-        }catch(Throwable $th){
+        try {
+            $governorates = Governorate::with('cities:id,name,governorate_id')->get(['id', 'name']);
+            return response()->json($governorates, 200);
+        } catch (Throwable $th) {
             return response()->json('error: ' . $th, 500);
         }
     }
@@ -39,22 +39,22 @@ class GovernorateController extends Controller
     {
         try {
             $governorates = $request->input('governorates');
-            
+
             foreach ($governorates as $governorate) {
                 $governorateName = $governorate['name'];
                 $cities = $governorate['cities'];
-            
+
                 $newGov = Governorate::create([
                     'name' => $governorateName
                 ]);
-            
+
                 foreach ($cities as $city) {
                     $newGov->cities()->create([
                         "name" => $city
                     ]);
                 }
-            }            
-    
+            }
+
             return response()->json('added successfully', 200);
         } catch (Throwable $th) {
             return response()->json('error: ' . $th, 500);
@@ -66,11 +66,11 @@ class GovernorateController extends Controller
      */
     public function show(string $id)
     {
-        try{
+        try {
             $governorate = Governorate::with('cities:name,governorate_id')
-                                    ->findorfail($id, ['id', 'name']);
-            return response()->json( $governorate, 200);
-        }catch(Throwable $th){
+                ->findorfail($id, ['id', 'name']);
+            return response()->json($governorate, 200);
+        } catch (Throwable $th) {
             return response()->json('error: ' . $th, 500);
         }
     }

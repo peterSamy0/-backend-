@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Illuminate\Http\Request;
+use Throwable;
+
 
 class CityController extends Controller
 {
@@ -11,7 +14,13 @@ class CityController extends Controller
      */
     public function index()
     {
-        //
+        try {
+
+            $cities = City::with('governorate')->get();
+            return response()->json($cities, 200);
+        } catch (Throwable $th) {
+            return response()->json('error: ' . $th, 500);
+        }
     }
 
     /**
@@ -35,7 +44,9 @@ class CityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $city = City::with('governorate')->findOrFail($id, ['id', 'name', 'governorate_id']);
+        return response()->json($city, 200);
+
     }
 
     /**

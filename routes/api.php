@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ShopCategoryController;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('soqli/governorates', GovernorateController::class);
+Route::apiResource('soqli/cities', CityController::class);
 Route::apiResource('soqli/shop_category', ShopCategoryController::class);
 Route::apiResource('soqli/product_category', ProductCategoryController::class);
 Route::apiResource('soqli/users', userController::class);

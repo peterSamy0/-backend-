@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -20,12 +19,12 @@ return new class extends Migration
             $table->text('address')->nullable();  // shop owner
             $table->foreignId('governorate_id')->constrained('governorates')->cascadeOnDelete()->cascadeOnUpdate(); // 2
             $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate(); // 2
-            $table->foreignId('shop_category_id')->constrained('shop_categories')->cascadeOnDelete()->cascadeOnUpdate()->nullable(); //shop owner
+            $table->foreignId('shop_category_id')->nullable()->constrained('shop_categories')->cascadeOnDelete()->cascadeOnUpdate();  //shop owner
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password'); // 2
             $table->string('cover_image')->nullable();   // shop owner          
             $table->string('profile_image')->nullable();   // shop owner
-            $table->boolean('payment')->default(false);         
+            $table->boolean('payment')->default(false);
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
