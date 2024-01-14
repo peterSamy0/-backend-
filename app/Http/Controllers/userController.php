@@ -16,7 +16,7 @@ class userController extends Controller
     public function index()
     {
         try {
-            $users = User::with(['city:id,name', 'governorate:id,name'])->get();
+            $users = User::with(['city:id,name', 'governorate:id,name', 'shopCategory:id,name'])->get();
             return response()->json($users, 200);
         } catch (Exception $e) {
             return response()->json('error: ' . $e->getMessage(), 500);
@@ -50,6 +50,10 @@ class userController extends Controller
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
             $user->save();
+
+            $phones = $request->input('phone');
+            $user->phones()->create(['phone' => $phones]);
+
             return response()->json($user, 200);
         } catch (Exception $e) {
             return response()->json('error: ' . $e->getMessage(), 500);
@@ -116,11 +120,11 @@ class userController extends Controller
 
     public function getShopOwner()
     {
-        try{
+        try {
             $shopOwners = User::where('role', 'صاحب محل')->with('shopCategory:id,name')->get(['full_name', 'address', 'shop_category_id', 'slug']);
-            return response()->json($shopOwners ,200);
-        }catch(Exception $e){
-            return response()->json('error: '. $e->getMessage(), 500);
+            return response()->json($shopOwners, 200);
+        } catch (Exception $e) {
+            return response()->json('error: ' . $e->getMessage(), 500);
         }
     }
 
@@ -131,7 +135,7 @@ class userController extends Controller
             $query->whereHas('shopCategory', function ($q) use ($request) {
                 $q->where('slug', $request->category);
             });
-        } 
+        }
         // You can add more filters based on your requirements
         $shops = $query->with('shopCategory:name,id')->get();
         return response()->json($shops);
