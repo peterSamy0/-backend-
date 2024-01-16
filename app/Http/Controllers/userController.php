@@ -49,6 +49,32 @@ class userController extends Controller
             $user->shop_category_id = $request->shop_category_id;
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
+
+            $userName = $request->email;
+            $path = 'image/';
+            $userFolder = public_path($path . $userName);
+
+
+            // Save profile Image
+            if ($request->hasFile('profile_image')) {
+                $profileImage = $request->file('profile_image');
+                $profileImageName = $userName . time() . '.' . $profileImage->getClientOriginalExtension();
+                $profileImage->move($userFolder, $profileImageName);
+                $user['profile_image'] = $profileImageName;
+            } else {
+                $user['profile_image'] = "profile.png";
+            }
+
+            // Save Cover Image
+            if ($request->hasFile('cover_image')) {
+                $coverImage = $request->file('cover_image');
+                $coverImageName = $userName . time() . '.' . $coverImage->getClientOriginalExtension();
+                $coverImage->move($userFolder, $coverImageName);
+                $user['cover_image'] = $coverImageName;
+            } else {
+                $user['cover_image'] = "cover.png";
+            }
+
             $user->save();
 
             $phones = $request->input('phone');
